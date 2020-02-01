@@ -22,5 +22,9 @@
   "bugs": {
     "url": "https://github.com/wh1t3cAt1k/ethereum-chat/issues"
   },
-  "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme"
+  "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme",
+  "devDependencies": {
+    "ganache-cli": "^6.9.0",
+    "typechain": "^1.0.4"
+  }
 }
