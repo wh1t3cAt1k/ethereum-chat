@@ -25,6 +25,11 @@
   "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme",
   "devDependencies": {
     "ganache-cli": "^6.9.0",
-    "typechain": "^1.0.4"
+    "solc": "^0.6.2",
+    "typechain": "^1.0.4",
+    "typechain-target-web3-v1": "^1.0.4"
+  },
+  "dependencies": {
+    "web3": "^1.2.6"
   }
 }
