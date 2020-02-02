@@ -1,36 +1,39 @@
 {
-  "name": "ethereum-chat",
-  "version": "0.1.0",
-  "description": "Ethereum-Based Chat Application with TypeScript / TypeChain",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "postinstall": "typechain --target=web3-v1 --outDir ethereum/build 'ethereum/src/**/*.json'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wh1t3cAt1k/ethereum-chat.git"
-  },
-  "keywords": [
-    "ethereum",
-    "blockchain",
-    "react",
-    "typescript",
-    "typechain"
-  ],
-  "author": "Pavel Kabir",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wh1t3cAt1k/ethereum-chat/issues"
-  },
-  "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme",
-  "devDependencies": {
-    "ganache-cli": "^6.9.0",
-    "solc": "^0.6.2",
-    "typechain": "^1.0.4",
-    "typechain-target-web3-v1": "^1.0.4"
-  },
-  "dependencies": {
-    "web3": "^1.2.6"
-  }
+    "name": "ethereum-chat",
+    "version": "0.1.0",
+    "description": "Ethereum-Based Chat Application with TypeScript / TypeChain",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "compileContracts": "solcjs --bin --abi --output-dir ethereum/build ethereum/src/**",
+        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/types 'ethereum/build/**/*.json'",
+        "build": "npm run compileContracts && npm run createContractTypeDefinitions",
+        "postinstall": "npm run build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/wh1t3cAt1k/ethereum-chat.git"
+    },
+    "keywords": [
+        "ethereum",
+        "blockchain",
+        "react",
+        "typescript",
+        "typechain"
+    ],
+    "author": "Pavel Kabir",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/wh1t3cAt1k/ethereum-chat/issues"
+    },
+    "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme",
+    "devDependencies": {
+        "ganache-cli": "^6.9.0",
+        "solc": "^0.6.2",
+        "typechain": "^1.0.4",
+        "typechain-target-web3-v1": "^1.0.4"
+    },
+    "dependencies": {
+        "web3": "^1.2.6"
+    }
 }
