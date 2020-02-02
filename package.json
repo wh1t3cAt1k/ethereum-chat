@@ -6,8 +6,10 @@
     "scripts": {
         "test": "jest",
         "compileContracts": "solcjs --bin --abi --output-dir ethereum/build ethereum/src/**",
-        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/types 'ethereum/build/**/*.json'",
-        "build": "npm run compileContracts && npm run createContractTypeDefinitions",
+        "prettierAbi": "npx prettier --write --parser=json ethereum/build/**.abi",
+        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/types 'ethereum/build/**/*.abi'",
+        "normalizeContractNames": "npx ts-node buildScripts/normalizeContractNames.ts",
+        "build": "npm run compileContracts && npm run normalizeContractNames && npm run prettierAbi && npm run createContractTypeDefinitions",
         "postinstall": "npm run build"
     },
     "repository": {
@@ -28,10 +30,16 @@
     },
     "homepage": "https://github.com/wh1t3cAt1k/ethereum-chat#readme",
     "devDependencies": {
+        "@types/glob": "^7.1.1",
         "ganache-cli": "^6.9.0",
+        "glob": "^7.1.6",
+        "immutable": "^4.0.0-rc.12",
+        "prettier": "^1.19.1",
         "solc": "^0.6.2",
+        "ts-node": "^8.6.2",
         "typechain": "^1.0.4",
-        "typechain-target-web3-v1": "^1.0.4"
+        "typechain-target-web3-v1": "^1.0.4",
+        "typescript": "^3.7.5"
     },
     "dependencies": {
         "web3": "^1.2.6"
