@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Ethereum Build Artifacts
+
+ethereum/build
