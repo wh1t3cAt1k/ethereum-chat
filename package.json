@@ -7,9 +7,10 @@
         "test": "jest",
         "compileContracts": "solcjs --bin --abi --output-dir ethereum/build ethereum/src/**",
         "prettierAbi": "npx prettier --write --parser=json ethereum/build/**.abi",
-        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/types 'ethereum/build/**/*.abi'",
+        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/build 'ethereum/build/**/*.abi'",
         "normalizeContractNames": "npx ts-node buildScripts/normalizeContractNames.ts",
-        "build": "npm run compileContracts && npm run normalizeContractNames && npm run prettierAbi && npm run createContractTypeDefinitions",
+        "clean": "npx ts-node buildScripts/clean.ts",
+        "build": "npm run clean && npm run compileContracts && npm run normalizeContractNames && npm run prettierAbi && npm run createContractTypeDefinitions",
         "postinstall": "npm run build"
     },
     "repository": {
