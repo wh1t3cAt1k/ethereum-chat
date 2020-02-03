@@ -9,6 +9,7 @@ contract AnonymousChat {
     }
 
     Message[] public messages;
+    uint32 public messageCount;
 
     function sendMessage(string memory senderName, string memory text) public {
         Message memory message = Message({
@@ -19,5 +20,6 @@ contract AnonymousChat {
         });
 
         messages.push(message);
+        messageCount++;
     }
 }
