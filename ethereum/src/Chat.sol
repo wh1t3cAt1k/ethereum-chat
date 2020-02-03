@@ -1,4 +1,5 @@
 pragma solidity ^0.6.2;
+pragma experimental ABIEncoderV2;
 
 contract AnonymousChat {
     struct Message {
@@ -8,8 +9,11 @@ contract AnonymousChat {
         string text;
     }
 
-    Message[] public messages;
-    uint32 public messageCount;
+    Message[] private messages;
+
+    function getMessages() public view returns (Message[] memory) {
+        return messages;
+    }
 
     function sendMessage(string memory senderName, string memory text) public {
         Message memory message = Message({
@@ -20,6 +24,5 @@ contract AnonymousChat {
         });
 
         messages.push(message);
-        messageCount++;
     }
 }
