@@ -17,18 +17,32 @@ beforeEach(async () => {
     web3 = new Web3(ganacheProvider);
     accounts = Seq.Indexed(await web3.eth.getAccounts());
 
-    chatContract = await new web3.eth.Contract(ChatJson.abi as any)
+    chatContract = new web3.eth.Contract(ChatJson.abi as any);
+
+    const deploymentGas = await chatContract
+        .deploy({ data: ChatJson.binary })
+        .estimateGas();
+
+    await chatContract
         .deploy({
             data: ChatJson.binary,
         })
         .send({
             from: accounts.first(),
-            gas: 1000000,
+            gas: deploymentGas,
         });
 });
 
-it('has empty messages upon creation', async () => {
-    const messages = await chatContract.methods.getMessages().call();
+describe(nameof(Chat), () => {
+    it('has empty messages upon deployment', async () => {
+        const messages = await chatContract.methods.getMessages().call();
 
-    expect(messages.length).toBe(0);
+        expect(messages.length).toBe(0);
+    });
+
+    it('adds a message with the specified sender name', async () => {
+        const senderName = 'Batman';
+
+        await chatContract.methods.sendMessage(senderName, 'foobar').send({});
+    });
 });
