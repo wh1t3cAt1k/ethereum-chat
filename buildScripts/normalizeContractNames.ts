@@ -9,19 +9,22 @@ import { Seq } from 'immutable';
  *
  * ethereum_src_Chat_sol_AnonymousChat.abi -> AnonymousChat.abi
  */
+const removeUnderscorePrefixes = () => {
+    Seq.Indexed(
+        glob.sync(path.resolve(__dirname, '..', 'ethereum', 'build', '*.*'))
+    ).forEach(fileName => {
+        const baseName = path.basename(fileName);
+        const dirName = path.dirname(fileName);
+    
+        const baseNameLastUnderscoreComponent = Seq.Indexed(
+            baseName.split('_')
+        ).last(fileName);
+    
+        fs.renameSync(
+            fileName,
+            path.resolve(dirName, baseNameLastUnderscoreComponent)
+        );
+    });
+}
 
-Seq.Indexed(
-    glob.sync(path.resolve(__dirname, '..', 'ethereum', 'build', '*.*'))
-).forEach(fileName => {
-    const baseName = path.basename(fileName);
-    const dirName = path.dirname(fileName);
-
-    const baseNameLastUnderscoreComponent = Seq.Indexed(
-        baseName.split('_')
-    ).last(fileName);
-
-    fs.renameSync(
-        fileName,
-        path.resolve(dirName, baseNameLastUnderscoreComponent)
-    );
-});
+removeUnderscorePrefixes();

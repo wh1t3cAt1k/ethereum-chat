@@ -1,7 +1,7 @@
 pragma solidity ^0.6.2;
 pragma experimental ABIEncoderV2;
 
-contract AnonymousChat {
+contract Chat {
     struct Message {
         uint256 dateTime;
         address senderAddress;

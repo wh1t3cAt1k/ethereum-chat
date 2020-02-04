@@ -5,12 +5,13 @@
     "main": "index.js",
     "scripts": {
         "test": "jest",
-        "compileContracts": "solcjs --bin --abi --output-dir ethereum/build ethereum/src/**",
-        "prettierAbi": "npx prettier --write --parser=json ethereum/build/**.abi",
-        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/build 'ethereum/build/**/*.abi'",
+        "compileContracts": "solcjs --bin --abi --output-dir ethereum/build ethereum/src/*.sol",
+        "prettierAbi": "npx prettier --write --parser=json ethereum/build/**.json",
+        "createContractTypeDefinitions": "typechain --target=web3-v1 --outDir ethereum/build 'ethereum/build/**/*.json'",
         "normalizeContractNames": "npx ts-node buildScripts/normalizeContractNames.ts",
+        "combineAbiAndBinaryIntoJson": "npx ts-node buildScripts/combineAbiAndBinaryIntoJson.ts",
         "clean": "npx ts-node buildScripts/clean.ts",
-        "build": "npm run clean && npm run compileContracts && npm run normalizeContractNames && npm run prettierAbi && npm run createContractTypeDefinitions",
+        "build": "npm run clean && npm run compileContracts && npm run normalizeContractNames && npm run combineAbiAndBinaryIntoJson && npm run prettierAbi && npm run createContractTypeDefinitions",
         "postinstall": "npm run build"
     },
     "repository": {
@@ -36,7 +37,9 @@
         "@babel/preset-typescript": "^7.8.3",
         "@types/glob": "^7.1.1",
         "@types/jest": "^25.1.1",
+        "@types/ts-nameof": "^4.2.1",
         "babel-jest": "^25.1.0",
+        "babel-plugin-ts-nameof": "^4.2.0",
         "ganache-core": "^2.10.1",
         "glob": "^7.1.6",
         "husky": "^4.2.1",
@@ -47,7 +50,8 @@
         "ts-node": "^8.6.2",
         "typechain": "^1.0.4",
         "typechain-target-web3-v1": "^1.0.4",
-        "typescript": "^3.7.5"
+        "typescript": "^3.7.5",
+        "web3-core": "^1.2.6"
     },
     "dependencies": {
         "web3": "^1.2.6"
