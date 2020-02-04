@@ -10,6 +10,7 @@ let web3: Web3;
 let chatContract: Chat;
 let accounts: Seq.Indexed<string>;
 let defaultAccountAddress: string;
+let nonDefaultAccountAddress: string;
 
 beforeEach(async () => {
     // Type cast necessary due to typings clash in web3 and ganache typings.
@@ -18,6 +19,7 @@ beforeEach(async () => {
     web3 = new Web3(ganacheProvider);
     accounts = Seq.Indexed(await web3.eth.getAccounts());
     defaultAccountAddress = accounts.first();
+    nonDefaultAccountAddress = accounts.get(1)!;
 
     chatContract = new web3.eth.Contract(ChatJson.abi as any);
 
@@ -56,31 +58,36 @@ describe(nameof(Chat), () => {
         expect(messages.length).toBe(0);
     });
 
-    it('includes sender name into the message', async () => {
+    it('has one message after deploying and sending a new message', async () => {
+        await sendMessage('Your boss', 'You are iced.');
+
+        const messages = await chatContract.methods.getMessages().call();
+
+        expect(messages.length).toBe(1);
+    });
+
+    it('includes sender name into the new message', async () => {
         const senderName = 'Batman';
 
         await sendMessage(senderName, 'foobar');
-
         const messages = await chatContract.methods.getMessages().call();
 
         expect(messages[0].senderName).toStrictEqual(senderName);
     });
 
-    it('includes message text into the message', async () => {
+    it('includes message text into the new message', async () => {
         const text = 'How about we meat this weekend?';
 
         await sendMessage('Vegetarian', text);
-
         const messages = await chatContract.methods.getMessages().call();
 
         expect(messages[0].text).toStrictEqual(text);
     });
 
     it('stores the sender account in the messages', async () => {
-        const expectedSenderAddress = accounts.last(undefined)!;
+        const expectedSenderAddress = nonDefaultAccountAddress;
 
         await sendMessage('Mr. Twister', 'I feel good', expectedSenderAddress);
-
         const messages = await chatContract.methods.getMessages().call();
 
         expect(messages[0].senderAddress).toStrictEqual(expectedSenderAddress);
